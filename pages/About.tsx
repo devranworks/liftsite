@@ -89,7 +89,7 @@ const About: React.FC = () => {
         subtitle="Hikayemiz"
         title="Unilift Makina"
         content="2012 yılından bu yana hidrolik sistemler ve lift teknolojileri üzerine uzmanlaşmış ekibimizle, Türkiye'nin önde gelen lift üreticilerinden biri olmanın gururunu yaşıyoruz. Dudullu Organize Sanayi Bölgesi'ndeki modern tesisimizde, en son teknolojiyi kullanarak yük taşıma süreçlerinizi kolaylaştıran çözümler üretiyoruz.\n\nMühendislik tecrübemizi, müşteri odaklı yaklaşımımızla birleştirerek her sektöre özel, güvenli ve dayanıklı sistemler sunuyoruz."
-        image="https://i.hizliresim.com/aqtbxtd.jpeg"
+        image="https://i.hizliresim.com/t7ungpy.png"
       />
 
       {/* Vision with Illustration */}
