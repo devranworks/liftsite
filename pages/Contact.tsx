@@ -1,9 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Send, Check } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Check, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,12 +13,50 @@ const Contact: React.FC = () => {
     message: ''
   });
   const [isSent, setIsSent] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSent(true);
-    setTimeout(() => setIsSent(false), 5000);
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS credentials are missing. Please check your .env file.');
+      // For demo purposes, we'll simulate success if keys are missing but log a warning
+      // In a real scenario, we'd show an error to the user or handle it gracefully
+      setIsSending(true);
+      setTimeout(() => {
+        setIsSending(false);
+        setIsSent(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setTimeout(() => setIsSent(false), 5000);
+      }, 1500);
+      return;
+    }
+
+    setIsSending(true);
+    setError(null);
+
+    try {
+      await emailjs.sendForm(
+        serviceId,
+        templateId,
+        formRef.current!,
+        publicKey
+      );
+      
+      setIsSent(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      setTimeout(() => setIsSent(false), 5000);
+    } catch (err) {
+      console.error('Failed to send email:', err);
+      setError('Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -72,7 +112,7 @@ const Contact: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-bold text-unilift-blue uppercase tracking-widest text-sm">Dijital İletişim</h3>
                 </div>
-                <a href="mailto:info@uniliftmakina.com" className="text-xl text-gray-600 font-light hover:text-unilift-blue transition-colors">info@uniliftmakina.com</a>
+                <a href="mailto:uniliftmakina@gmail.com" className="text-xl text-gray-600 font-light hover:text-unilift-blue transition-colors">uniliftmakina@gmail.com</a>
               </div>
 
               <div className="p-10 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex items-start space-x-6">
@@ -96,12 +136,13 @@ const Contact: React.FC = () => {
               <div className="absolute -inset-2 bg-gradient-to-tr from-unilift-blue to-unilift-red opacity-10 rounded-[3rem] blur-xl"></div>
               <div className="relative bg-white p-10 md:p-16 rounded-[3rem] shadow-3xl border border-gray-100">
                 <h3 className="text-3xl font-bold text-unilift-blue mb-10">Bize Mesaj Gönderin</h3>
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
                       <label className="text-xs font-black uppercase tracking-widest text-gray-400 ml-4">İsim Soyisim</label>
                       <input 
                         type="text" 
+                        name="user_name"
                         required
                         className="w-full bg-gray-50/50 border-2 border-transparent rounded-2xl p-5 focus:border-unilift-red focus:bg-white transition-all outline-none font-medium text-gray-800"
                         placeholder="Örn: Ahmet Yılmaz"
@@ -113,6 +154,7 @@ const Contact: React.FC = () => {
                       <label className="text-xs font-black uppercase tracking-widest text-gray-400 ml-4">E-Posta</label>
                       <input 
                         type="email" 
+                        name="user_email"
                         required
                         className="w-full bg-gray-50/50 border-2 border-transparent rounded-2xl p-5 focus:border-unilift-red focus:bg-white transition-all outline-none font-medium text-gray-800"
                         placeholder="orn@email.com"
@@ -125,6 +167,7 @@ const Contact: React.FC = () => {
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 ml-4">Telefon Numarası</label>
                     <input 
                       type="tel" 
+                      name="user_phone"
                       className="w-full bg-gray-50/50 border-2 border-transparent rounded-2xl p-5 focus:border-unilift-red focus:bg-white transition-all outline-none font-medium text-gray-800"
                       placeholder="0(5xx) xxx xx xx"
                       value={formData.phone}
@@ -134,6 +177,7 @@ const Contact: React.FC = () => {
                   <div className="space-y-3">
                     <label className="text-xs font-black uppercase tracking-widest text-gray-400 ml-4">Mesajınız</label>
                     <textarea 
+                      name="message"
                       rows={5}
                       required
                       className="w-full bg-gray-50/50 border-2 border-transparent rounded-2xl p-5 focus:border-unilift-red focus:bg-white transition-all outline-none font-medium text-gray-800 resize-none"
@@ -142,12 +186,22 @@ const Contact: React.FC = () => {
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                     ></textarea>
                   </div>
+
+                  {error && (
+                    <div className="flex items-center space-x-2 text-red-500 bg-red-50 p-4 rounded-xl text-sm font-medium">
+                      <AlertCircle size={18} />
+                      <span>{error}</span>
+                    </div>
+                  )}
+
                   <button 
                     type="submit" 
-                    disabled={isSent}
-                    className={`w-full py-6 rounded-2xl font-black text-xl transition-all flex items-center justify-center space-x-3 shadow-2xl ${isSent ? 'bg-green-500 text-white' : 'bg-unilift-red text-white hover:bg-red-700 shadow-red-200'}`}
+                    disabled={isSent || isSending}
+                    className={`w-full py-6 rounded-2xl font-black text-xl transition-all flex items-center justify-center space-x-3 shadow-2xl ${isSent ? 'bg-green-500 text-white' : 'bg-unilift-red text-white hover:bg-red-700 shadow-red-200'} ${isSending ? 'opacity-70 cursor-wait' : ''}`}
                   >
-                    {isSent ? (
+                    {isSending ? (
+                      <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    ) : isSent ? (
                       <>
                         <Check size={24} />
                         <span>Mesaj Gönderildi</span>

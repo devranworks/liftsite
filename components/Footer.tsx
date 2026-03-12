@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-500">
                 <Mail size={18} className="text-unilift-red flex-shrink-0" />
-                <span>info@uniliftmakina.com</span>
+                <span>uniliftmakina@gmail.com</span>
               </li>
             </ul>
           </div>
