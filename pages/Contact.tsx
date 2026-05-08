@@ -88,7 +88,7 @@ const Contact: React.FC = () => {
                   <h3 className="text-xl font-bold text-unilift-blue uppercase tracking-widest text-sm">Genel Merkez & Fabrika</h3>
                 </div>
                 <p className="text-lg text-gray-600 font-light leading-relaxed max-w-sm">
-                  Dudullu OSB, Des Sanayi Sitesi, B12 Blok 106. (Zencefil) Sokak no 16 Ümraniye / İstanbul
+                  EYÜP SULTAN MAHALLESİ SAMANDIRA CAD. VADİ SOKAK NO: 8 Sancaktepe / İstanbul
                 </p>
               </div>
 
@@ -100,8 +100,8 @@ const Contact: React.FC = () => {
                   <h3 className="text-xl font-bold text-unilift-blue uppercase tracking-widest text-sm">Müşteri Hizmetleri</h3>
                 </div>
                 <div className="space-y-2">
-                  <a href="tel:05375525269" className="block text-2xl font-black text-gray-900 hover:text-unilift-red transition-colors">0537 552 52 69</a>
-                  <a href="tel:05366532278" className="block text-xl font-bold text-gray-400 hover:text-unilift-blue transition-colors">0536 653 22 78</a>
+                  <a href="tel:+905366532278" className="block text-2xl font-black text-gray-900 hover:text-unilift-red transition-colors">+90 536 653 22 78</a>
+                  <a href="tel:05375525269" className="block text-xl font-bold text-gray-400 hover:text-unilift-blue transition-colors">0537 552 52 69</a>
                 </div>
               </div>
 

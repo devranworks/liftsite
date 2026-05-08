@@ -55,11 +55,11 @@ const Navbar: React.FC = () => {
               </Link>
             ))}
             <a
-              href="tel:05375525269"
+              href="tel:+905366532278"
               className="flex items-center space-x-2 bg-unilift-blue text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-unilift-red transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-indigo-100"
             >
               <Phone size={16} fill="currentColor" />
-              <span>0537 552 52 69</span>
+              <span>+90 536 653 22 78</span>
             </a>
           </div>
 
@@ -97,11 +97,11 @@ const Navbar: React.FC = () => {
               ))}
               <div className="pt-6 border-t mt-4">
                 <a
-                  href="tel:05375525269"
+                  href="tel:+905366532278"
                   className="flex items-center justify-center space-x-3 bg-unilift-red text-white p-5 rounded-2xl font-bold shadow-lg shadow-red-100"
                 >
                   <Phone size={22} fill="white" />
-                  <span className="text-lg">0537 552 52 69</span>
+                  <span className="text-lg">+90 536 653 22 78</span>
                 </a>
               </div>
             </div>

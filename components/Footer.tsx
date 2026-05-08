@@ -52,11 +52,11 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-sm text-gray-500">
                 <MapPin size={18} className="text-unilift-red flex-shrink-0" />
-                <span>Dudullu OSB, Des Sanayi Sitesi, B12 Blok 106. Sokak no 16 Ümraniye / İstanbul</span>
+                <span>EYÜP SULTAN MAHALLESİ SAMANDIRA CAD. VADİ SOKAK NO: 8 Sancaktepe / İstanbul</span>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-500">
                 <Phone size={18} className="text-unilift-red flex-shrink-0" />
-                <span>0537 552 52 69</span>
+                <span>+90 536 653 22 78</span>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-500">
                 <Mail size={18} className="text-unilift-red flex-shrink-0" />
